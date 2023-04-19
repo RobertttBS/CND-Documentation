@@ -1,2 +1,2 @@
 # CND-Documentation
-The project of the course "Cloud Native Development: towards Best Practice" in NYCU
+The project named "Documentation" of the course "Cloud Native Development: towards Best Practice" in NYCU.
