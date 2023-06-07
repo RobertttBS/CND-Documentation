@@ -1,0 +1,39 @@
+---
+# Middleware
+# Strip prefixes
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mw-admin
+spec:
+  stripPrefix:
+    forceSlash: false
+    prefixes:
+      - /nextcloud
+      - /_metrics
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-nextcloud
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: default-mw-admin@kubernetescrd
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /nextcloud
+        pathType: Prefix
+        backend:
+          service:
+            name: my-release-nextcloud
+            port:
+              number: 8080
+      - path: /_metrics
+        pathType: Prefix
+        backend:
+          service:
+            name: my-release-nextcloud-metrics
+            port:
+              number: 9205
